@@ -6,6 +6,7 @@ const db=require('./config/config').get(process.env.NODE_ENV);
 const User=require('./models/user');
 const {auth} =require('./middlewares/auth');
 require('dotenv').config({ path: '.env' });
+const path = require('path');
 
 
 const app=express();
@@ -21,7 +22,8 @@ mongoose.connect(process.env.MONGODB_URI,{ useNewUrlParser: true,useUnifiedTopol
 });
 
 app.get('/',function(req,res){
-    res.status(200).send(`Welcome to login , sign-up api`);
+    // res.status(200).send(`Welcome to Node.js auth module created by Sudarshan Gawale for <strong>SALT</strong> assignment`);
+    res.sendFile(path.join(__dirname, '/index.html'));
 });
 
 
