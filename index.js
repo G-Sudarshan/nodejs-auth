@@ -45,10 +45,11 @@ app.post('/api/register',function(req,res){
         newuser.save((err,doc)=>{
             if(err) {console.log(err);
                 return res.status(400).json({ success : false});}
-            res.status(200).json({
-                succes:true,
-                user : doc
-            });
+                res.status(200).json({
+                    message: "You account has been created successfully you can now login to the system.",
+                    succes:true,
+                    user : doc
+                });
         });
     });
  });
@@ -72,12 +73,9 @@ app.post('/api/login', function(req,res){
         
                 user.generateToken((err,user)=>{
                     if(err) return res.status(400).send(err);
-                    res.cookie('auth',user.token).json({
-                        isAuth : true,
-                        id : user._id
-                        ,email : user.email
-                    });
-                });    
+                    res.cookie('auth',user.token).sendFile(path.join(__dirname+'/view/dashboard.html'));
+                });
+                 
             });
           });
         }
@@ -99,7 +97,7 @@ app.get('/api/profile',auth,function(req,res){
 app.get('/api/logout',auth,function(req,res){
     req.user.deleteToken(req.token,(err,user)=>{
         if(err) return res.status(400).send(err);
-        res.sendStatus(200);
+        res.sendStatus(200)
     });
 
 }); 
